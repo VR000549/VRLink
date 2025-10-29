@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free VR Game Zone</title>
   <style>
+    
+.vr-logo {
+  width: 42px;
+  height: 42px;
+  vertical-align: middle;
+  margin-right: 10px;
+  filter: drop-shadow(0 0 8px #00ffffaa);
+  animation: vrFloat 3s ease-in-out infinite;
+}
+
+
+@keyframes vrFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
 .discord-section {
   margin: 25px auto 0 auto;
   display: flex;
@@ -441,3 +457,4 @@
 
 </body>
 </html>
+
