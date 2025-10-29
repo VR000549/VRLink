@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free VR Game Zone</title>
+  <style>
+.discord-section {
+  margin: 25px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.discord-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #00ffff;
+  font-weight: bold;
+  gap: 10px;
+  font-size: 1.1em;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid #00ffff55;
+  border-radius: 15px;
+  padding: 10px 20px;
+  transition: 0.3s ease;
+  box-shadow: 0 0 10px #00ffff33;
+}
+
+.discord-link:hover {
+  box-shadow: 0 0 25px #00ffffaa;
+  transform: scale(1.05);
+}
+
+
+.discord-logo {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 0 6px #00ffffaa);
+  transition: transform 0.3s;
+}
+
+.discord-link:hover .discord-logo {
+  transform: rotate(10deg) scale(1.1);
+}
+
+
+.discord-tooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 255, 255, 0.15);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #00ffff55;
+  font-size: 0.9em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  width: max-content;
+  max-width: 220px;
+  box-shadow: 0 0 10px #00ffff55;
+  text-align: center;
+}
+
+.discord-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(0, 255, 255, 0.15) transparent transparent transparent;
+}
+
+
+.discord-link:hover .discord-tooltip {
+  opacity: 1;
+  transform: translate(-50%, -8px);
+}
+
+
+.search-bar {
+  margin-top: 15px;
+  transition: transform 0.6s ease;
+}
+
+.search-bar.shift-left {
+  transform: translateX(-60px);
+}
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at center, #0a0f1c, #000);
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 15px #00ffff55;
+      opacity: 0;
+      transform: translateY(-50px);
+      animation: headerFadeIn 1.2s ease-out forwards;
+    }
+
+    @keyframes headerFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #00ffff;
+      margin: 0;
+      text-shadow: 0 0 10px #00ffffaa;
+      opacity: 0;
+      transform: translateY(-30px);
+      animation: titleSlideIn 1s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes titleSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    p {
+      margin-top: 5px;
+      color: #aaa;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+
+    .search-bar {
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: searchAppear 1s ease forwards;
+      animation-delay: 1s;
+    }
+
+    @keyframes searchAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .search-bar input {
+      width: 60%;
+      max-width: 400px;
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 25px;
+      border: 1px solid #00ffff55;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      outline: none;
+      transition: box-shadow 0.3s;
+    }
+
+    .search-bar input:focus {
+      box-shadow: 0 0 15px #00ffff88;
+      border-color: #00ffff;
+    }
+
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .game-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #00ffff33;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 20px #00ffff88;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .game-info {
+      padding: 15px;
+    }
+
+    .game-info h2 {
+      margin: 0;
+      color: #00ffff;
+      font-size: 1.3em;
+    }
+
+    footer {
+      padding: 20px;
+      border-top: 1px solid #00ffff33;
+      color: #888;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: 2.5s;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>VRLinker</h1>
+    <p>Les meilleurs jeux VR gratuits !</p>
+
+    
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Rechercher un jeu VR...">
+    </div>
+
+    
+<div class="discord-section" id="discordBlock">
+  <a href="https://discord.gg/xtnBYX9z" target="_blank" class="discord-link">
+    <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/discord.svg" alt="Discord" class="discord-logo">
+    <span>Rejoins notre serveur Discord !</span>
+    <div class="discord-tooltip">💬 Rejoins le Discord et dis-nous quel jeu ajouter !</div>
+  </a>
+</div>
+
+  </header>
+
+  <main>
+    <div class="games-container" id="gamesContainer">
+
+      <a href="https://link-center.net/1429805/ELobBk89MZmU" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/546560/header.jpg" alt="Half-Life Alyx">
+        <div class="game-info"><h2>Half-Life: Alyx</h2></div>
+      </a>
+
+      <a href="https://link-center.net/1429805/cr1je4bMhfZf" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/620980/header.jpg" alt="Beat Saber">
+        <div class="game-info"><h2>Beat Saber</h2></div>
+      </a>
+
+      <a href="https://direct-link.net/1429805/Q03393WtuwKH" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/448280/header.jpg" alt="Job Simulator">
+        <div class="game-info"><h2>Job Simulator</h2></div>
+      </a>
+
+      <a href="https://direct-link.net/1429805/GosMLDkGvqvi" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/264710/header.jpg" alt="Subnautica">
+        <div class="game-info"><h2>Subnautica</h2></div>
+      </a>
+
+      <a href="https://link-center.net/1429805/mJYOaYAaU01H" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1592190/header.jpg" alt="Bonelab">
+        <div class="game-info"><h2>BONELAB</h2></div>
+      </a>
+
+      <a href="https://direct-link.net/1429805/sIfWm80LZvsM" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/242760/header.jpg" alt="The Forest">
+        <div class="game-info"><h2>The Forest</h2></div>
+      </a>
+
+      <a href="https://direct-link.net/1429805/vGegD9uv7p9r" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/275850/header.jpg" alt="No Man's Sky">
+        <div class="game-info"><h2>No Man's Sky</h2></div>
+      </a>
+
+      <a href="https://direct-link.net/1429805/Dcwx5YZhUF06" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg" alt="Phasmophobia">
+        <div class="game-info"><h2>Phasmophobia</h2></div>
+      </a>
+
+      <a href="https://link-hub.net/1429805/DjdfbM384HtH" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/732690/header.jpg" alt="FNAF Help Wanted">
+        <div class="game-info"><h2>FNAF: Help Wanted</h2></div>
+      </a>
+
+      <a href="https://link-center.net/1429805/95MBY8ra67Pb" target="_blank" class="game-card">
+        <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2287520/capsule_616x353.jpg" alt="FNAF Help Wanted 2">
+        <div class="game-info"><h2>FNAF: Help Wanted 2</h2></div>
+      </a>
+
+      <a href="https://link-hub.net/1429805/68NoQTLQUiCU" target="_blank" class="game-card">
+        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1849900/d3074fc2032268ccba81d5922f33dc00224da44a/capsule_616x353_alt_assets_9.jpg" alt="Among Us VR">
+        <div class="game-info"><h2>Among Us 3D (VR)</h2></div>
+      </a>
+
+      <a href="https://link-center.net/1429805/1wV1bnIhYi2O" target="_blank" class="game-card">
+        <img src="https://i.imgur.com/dYZDlJf.png" alt="I Am Cat">
+        <div class="game-info"><h2>I Am Cat</h2></div>
+      </a>
+
+      <a href="https://link-hub.net/1429805/uwfZsetovxjA" target="_blank" class="game-card">
+        <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1294760/capsule_616x353.jpg" alt="Hard Bullet">
+        <div class="game-info"><h2>Hard Bullet</h2></div>
+      </a>
+
+      <a href="https://link-target.net/1429805/CTy0OgSGpryU" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/617830/header.jpg" alt="SuperHot VR">
+        <div class="game-info"><h2>SuperHot VR</h2></div>
+      </a>
+
+      <a href="https://link-hub.net/1429805/SGEoYEhNiiCm" target="_blank" class="game-card">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1584840/header.jpg" alt="Battle Talent">
+        <div class="game-info"><h2>Battle Talent</h2></div>
+      </a>
+
+      <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+       <a href="" target="_blank" class="game-card">
+        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
+        <div class="game-info"><h2>Coming Soon...</h2></div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 VRLinker</p>
+  </footer>
+
+  <script>
+
+    const searchInput = document.getElementById('searchInput');
+    const games = document.querySelectorAll('.game-card');
+
+    searchInput.addEventListener('input', () => {
+      const searchValue = searchInput.value.toLowerCase();
+      games.forEach(game => {
+        const title = game.querySelector('h2').textContent.toLowerCase();
+        game.style.display = title.includes(searchValue) ? '' : 'none';
+      });
+    });
+
+
+    window.addEventListener('load', () => {
+      const cards = document.querySelectorAll('.game-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+          card.style.opacity = 1;
+          card.style.transform = 'translateY(0)';
+        }, 200 + index * 120);
+      });
+    });
+  </script>
+
+</body>
+</html>
