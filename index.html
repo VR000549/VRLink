@@ -431,23 +431,13 @@
   </main>
 
   <script>
-    /**********************************************************************
-     *  MAINTENANCE AVEC COMPTE À REBOURS
-     *  - Commence à 15h05 aujourd’hui (heure locale du navigateur)
-     *  - Se termine demain à 15h05
-     *  - Après la fin prévue, on affiche "En attente de réouverture"
-     *    jusqu’à déverrouillage manuel (vous “l’enlevez”).
-     *
-     *  Déverrouillage manuel (optionnel) :
-     *    - Ajoutez dans l’URL : ?unlock=VOTRE_CODE
-     *    - Définissez UNLOCK_CODE ci-dessous
-     **********************************************************************/
 
-    // 👉 Changez ce code si vous voulez un "déblocage" simple par URL
+
+  
     const UNLOCK_CODE = "UNLOCKED";
 
-    // 👉 Si vous voulez forcer la maintenance quoi qu’il arrive :
-    // (true = toujours bloqué / false = logique automatique + déverrouillage possible)
+    
+    
     const FORCE_LOCK = true;
 
     // Horaires : 15:05 -> (15, 5)
@@ -463,7 +453,7 @@
     function pad(n){ return String(n).padStart(2,"0"); }
 
     function fmt(dt){
-      // Format lisible FR, sans secondes
+      
       return dt.toLocaleString("fr-FR", {
         weekday:"short", year:"numeric", month:"short", day:"2-digit",
         hour:"2-digit", minute:"2-digit"
@@ -471,11 +461,11 @@
     }
 
     function buildWindow(now){
-      // Start: aujourd’hui à 15:05
+     
       const start = new Date(now);
       start.setHours(START_HOUR, START_MIN, 0, 0);
 
-      // End: demain à 15:05 (par rapport au start)
+      
       const end = new Date(start);
       end.setDate(start.getDate() + 1);
 
@@ -568,7 +558,7 @@
 
       // LOGIQUE PRINCIPALE
       if(now < start){
-        // Avant le début : compte à rebours jusqu’au démarrage
+       
         phase = "À venir";
         state = "Maintenance programmée";
         targetMs = start - now;
@@ -597,7 +587,7 @@
         ringP = 1 - (targetMs / duration);
         el("centerSmall").textContent = "PROGRESSION";
       }else{
-        // Après la fin prévue : on laisse la page bloquée jusqu’à ce que VOUS “l’enleviez”
+        
         phase = "Terminé (horaire)";
         state = FORCE_LOCK ? "En attente de réouverture (manuel)" : "Vous pouvez déverrouiller (manuel)";
         targetMs = 0;
@@ -646,4 +636,5 @@
   </script>
 </body>
 </html>
+
 
