@@ -1,464 +1,648 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VRLink</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Maintenance</title>
   <style>
-    
-.vr-logo {
-  width: 42px;
-  height: 42px;
-  vertical-align: middle;
-  margin-right: 10px;
-  filter: drop-shadow(0 0 8px #00ffffaa);
-  animation: vrFloat 3s ease-in-out infinite;
-}
-
-
-@keyframes vrFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.discord-section {
-  margin: 25px auto 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.discord-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #00ffff;
-  font-weight: bold;
-  gap: 10px;
-  font-size: 1.1em;
-  background: rgba(0, 255, 255, 0.05);
-  border: 1px solid #00ffff55;
-  border-radius: 15px;
-  padding: 10px 20px;
-  transition: 0.3s ease;
-  box-shadow: 0 0 10px #00ffff33;
-}
-
-.discord-link:hover {
-  box-shadow: 0 0 25px #00ffffaa;
-  transform: scale(1.05);
-}
-
-
-.discord-logo {
-  width: 30px;
-  height: 30px;
-  filter: drop-shadow(0 0 6px #00ffffaa);
-  transition: transform 0.3s;
-}
-
-.discord-link:hover .discord-logo {
-  transform: rotate(10deg) scale(1.1);
-}
-
-
-.discord-tooltip {
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 255, 255, 0.15);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid #00ffff55;
-  font-size: 0.9em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  width: max-content;
-  max-width: 220px;
-  box-shadow: 0 0 10px #00ffff55;
-  text-align: center;
-}
-
-.discord-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
-  border-style: solid;
-  border-color: rgba(0, 255, 255, 0.15) transparent transparent transparent;
-}
-
-
-.discord-link:hover .discord-tooltip {
-  opacity: 1;
-  transform: translate(-50%, -8px);
-}
-
-
-.search-bar {
-  margin-top: 15px;
-  transition: transform 0.6s ease;
-}
-
-.search-bar.shift-left {
-  transform: translateX(-60px);
-}
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at center, #0a0f1c, #000);
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
+    :root{
+      --bg1:#070A14;
+      --bg2:#0B1430;
+      --c1:#7C3AED;
+      --c2:#22D3EE;
+      --c3:#F97316;
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.75);
+      --glass:rgba(255,255,255,.08);
+      --glass2:rgba(255,255,255,.12);
+      --stroke:rgba(255,255,255,.18);
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+      --radius: 26px;
+      --ring: 5.0; /* thickness */
     }
 
-    header {
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 0 15px #00ffff55;
-      opacity: 0;
-      transform: translateY(-50px);
-      animation: headerFadeIn 1.2s ease-out forwards;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow:hidden;
+      background:
+        radial-gradient(1100px 700px at 15% 25%, rgba(124,58,237,.22), transparent 65%),
+        radial-gradient(900px 650px at 85% 30%, rgba(34,211,238,.18), transparent 60%),
+        radial-gradient(900px 700px at 60% 85%, rgba(249,115,22,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
     }
 
-    @keyframes headerFadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* animated aura */
+    .aura{
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(124,58,237,.22), transparent 40%),
+        radial-gradient(circle at 70% 40%, rgba(34,211,238,.18), transparent 45%),
+        radial-gradient(circle at 55% 75%, rgba(249,115,22,.14), transparent 50%);
+      filter: blur(30px);
+      animation: drift 14s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes drift{
+      0%{ transform: translate3d(-2%, -1%, 0) scale(1.00) rotate(-2deg); }
+      100%{ transform: translate3d(2%, 1.5%, 0) scale(1.05) rotate(2deg); }
     }
 
-    h1 {
-      font-size: 2.5em;
-      color: #00ffff;
-      margin: 0;
-      text-shadow: 0 0 10px #00ffffaa;
-      opacity: 0;
-      transform: translateY(-30px);
-      animation: titleSlideIn 1s ease-out forwards;
-      animation-delay: 0.3s;
+    /* floating particles */
+    .particles{ position:absolute; inset:0; pointer-events:none; opacity:.85;}
+    .p{
+      position:absolute;
+      width:10px; height:10px;
+      border-radius:999px;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.85), rgba(255,255,255,.1));
+      filter: blur(.2px);
+      animation: float var(--t) linear infinite;
+      opacity: var(--o);
+      transform: translate3d(0,0,0);
+    }
+    @keyframes float{
+      from { transform: translate3d(var(--x), 110vh, 0) scale(var(--s)); }
+      to   { transform: translate3d(calc(var(--x) + var(--dx)), -15vh, 0) scale(calc(var(--s) * 1.12)); }
     }
 
-    @keyframes titleSlideIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .wrap{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding: 28px 18px;
     }
 
-    p {
-      margin-top: 5px;
-      color: #aaa;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 0.6s;
+    .card{
+      width:min(980px, 100%);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.04));
+      border:1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
-
-    .search-bar {
-      margin-top: 15px;
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: searchAppear 1s ease forwards;
-      animation-delay: 1s;
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: linear-gradient(120deg, rgba(124,58,237,.55), rgba(34,211,238,.35), rgba(249,115,22,.25));
+      opacity:.18;
+      filter: blur(20px);
+      pointer-events:none;
     }
 
-    @keyframes searchAppear {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 18px 18px 14px 18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      position:relative;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 0 18px rgba(124,58,237,.55);
+      animation:pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform:scale(1); filter:saturate(1); }
+      50%{ transform:scale(1.45); filter:saturate(1.2); }
     }
 
-    .search-bar input {
-      width: 60%;
-      max-width: 400px;
-      padding: 10px 15px;
-      font-size: 1em;
-      border-radius: 25px;
-      border: 1px solid #00ffff55;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      outline: none;
-      transition: box-shadow 0.3s;
+    .badge{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      user-select:none;
+    }
+    .badge strong{ color: var(--text); font-weight:700; }
+
+    .content{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      padding: 20px 18px 18px;
+      position:relative;
+    }
+    @media (max-width: 860px){
+      .content{ grid-template-columns: 1fr; }
     }
 
-    .search-bar input:focus {
-      box-shadow: 0 0 15px #00ffff88;
-      border-color: #00ffff;
+    .left{
+      padding: 18px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
     }
 
-    .games-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
+    h1{
+      margin:0 0 10px 0;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height:1.12;
+      letter-spacing:-.4px;
+    }
+    .lead{
+      margin:0 0 18px 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 62ch;
     }
 
-    .game-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #00ffff33;
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(50px);
+    .statusline{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin: 12px 0 16px;
+    }
+    .pill{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size: 13px;
+      color: var(--muted);
+      display:flex; align-items:center; gap:10px;
+    }
+    .pill .k{
+      color: var(--text);
+      font-weight:700;
+      letter-spacing:.2px;
     }
 
-    .game-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 0 20px #00ffff88;
+    .timer{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 520px){
+      .timer{ grid-template-columns: repeat(2, 1fr); }
     }
 
-    .game-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .tbox{
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+    }
+    .tbox::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: linear-gradient(120deg, rgba(124,58,237,.20), rgba(34,211,238,.14), rgba(249,115,22,.10));
+      opacity:.25;
+      filter: blur(18px);
+      pointer-events:none;
+    }
+    .num{
+      position:relative;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 800;
+      letter-spacing:-.8px;
+    }
+    .lbl{
+      position:relative;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing:.25px;
+      text-transform: uppercase;
     }
 
-    .game-info {
-      padding: 15px;
+    .note{
+      margin-top: 16px;
+      color: rgba(234,240,255,.78);
+      font-size: 13px;
+      line-height:1.55;
+      border-top:1px dashed rgba(255,255,255,.16);
+      padding-top: 14px;
     }
 
-    .game-info h2 {
-      margin: 0;
-      color: #00ffff;
-      font-size: 1.3em;
+    .right{
+      padding: 18px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      display:grid;
+      gap:14px;
+      align-content:start;
     }
 
-    footer {
-      padding: 20px;
-      border-top: 1px solid #00ffff33;
-      color: #888;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 2.5s;
+    .ringWrap{
+      display:grid;
+      place-items:center;
+      padding: 14px 8px 6px;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .ring{
+      width: 210px; height: 210px;
+      position:relative;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,.35));
+    }
+    .ring svg{ width:100%; height:100%; transform: rotate(-90deg); }
+    .ring .center{
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      text-align:center;
+      padding: 22px;
+    }
+    .big{
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+      font-size: 30px;
+      letter-spacing:-.6px;
+      line-height:1.12;
+    }
+    .small{
+      margin-top:6px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.35;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .cta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 6px;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.26);
+    }
+
+    .footer{
+      padding: 14px 18px 18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12px;
+      position:relative;
+    }
+    .footer code{
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      padding: 4px 8px;
+      border-radius: 10px;
+      color: rgba(234,240,255,.90);
+    }
+
+    /* subtle entrance */
+    .card{
+      animation: pop .55s ease-out both;
+    }
+    @keyframes pop{
+      from{ opacity:0; transform: translateY(10px) scale(.98); }
+      to{ opacity:1; transform: translateY(0) scale(1); }
     }
   </style>
 </head>
+
 <body>
+  <div class="aura"></div>
+  <div class="particles" id="particles"></div>
 
-  <header>
-   <h1>
-  <img src="https://files.catbox.moe/zcao8s.png" alt="Casque VR" class="vr-logo">
-  VRLink
-</h1>
+  <main class="wrap">
+    <section class="card" role="region" aria-label="Maintenance">
+      <div class="topbar">
+        <div class="brand">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Maintenance en cours</span>
+        </div>
+        <div class="badge" id="badge">
+          <strong id="phaseLabel">Initialisation…</strong>
+          <span id="windowLabel">—</span>
+        </div>
+      </div>
 
-    <p>Les meilleurs jeux VR versions cracks et gratuits !</p>
+      <div class="content">
+        <div class="left">
+          <h1 id="title">Nous améliorons la plateforme ✨</h1>
+          <p class="lead" id="subtitle">
+            Accès temporairement indisponible pendant une opération de maintenance planifiée.
+            Le compte à rebours ci-dessous indique le temps restant.
+          </p>
 
-    
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Rechercher un jeu VR...">
-    </div>
+          <div class="statusline">
+            <div class="pill"><span class="k">Début</span> <span id="startText">—</span></div>
+            <div class="pill"><span class="k">Fin</span> <span id="endText">—</span></div>
+            <div class="pill"><span class="k">État</span> <span id="stateText">—</span></div>
+          </div>
 
-    
-<div class="discord-section" id="discordBlock">
-  <a href="https://discord.gg/xtnBYX9z" target="_blank" class="discord-link">
-    <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/discord.svg" alt="Discord" class="discord-logo">
-    <span>Rejoins notre serveur Discord !</span>
-    <div class="discord-tooltip">💬 Rejoins le Discord et dis-nous quel jeu ajouter !</div>
-  </a>
-</div>
+          <div class="timer" aria-label="Compte à rebours">
+            <div class="tbox"><div class="num" id="d">00</div><div class="lbl">Jours</div></div>
+            <div class="tbox"><div class="num" id="h">00</div><div class="lbl">Heures</div></div>
+            <div class="tbox"><div class="num" id="m">00</div><div class="lbl">Minutes</div></div>
+            <div class="tbox"><div class="num" id="s">00</div><div class="lbl">Secondes</div></div>
+          </div>
 
-  </header>
+          <div class="note" id="note">
+            Si la maintenance dépasse l’heure prévue, cette page restera affichée jusqu’à réouverture.
+          </div>
+        </div>
 
-  <main>
-    <div class="games-container" id="gamesContainer">
+        <aside class="right">
+          <div class="ringWrap">
+            <div class="ring" aria-label="Progression">
+              <svg viewBox="0 0 120 120" role="img" aria-label="Anneau de progression">
+                <!-- background -->
+                <circle cx="60" cy="60" r="48"
+                        fill="none"
+                        stroke="rgba(255,255,255,.10)"
+                        stroke-width="10" />
+                <!-- progress -->
+                <circle id="ringProgress" cx="60" cy="60" r="48"
+                        fill="none"
+                        stroke="url(#grad)"
+                        stroke-linecap="round"
+                        stroke-width="10"
+                        stroke-dasharray="301.59"
+                        stroke-dashoffset="301.59" />
+                <defs>
+                  <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="rgba(124,58,237,.95)" />
+                    <stop offset="55%" stop-color="rgba(34,211,238,.95)" />
+                    <stop offset="100%" stop-color="rgba(249,115,22,.90)" />
+                  </linearGradient>
+                </defs>
+              </svg>
 
-      <a href="https://link-center.net/1429805/ELobBk89MZmU" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/546560/header.jpg" alt="Half-Life Alyx">
-        <div class="game-info"><h2>Half-Life: Alyx</h2></div>
-      </a>
+              <div class="center">
+                <div class="big" id="centerBig">—</div>
+                <div class="small" id="centerSmall">—</div>
+              </div>
+            </div>
+          </div>
 
-      <a href="https://link-center.net/1429805/cr1je4bMhfZf" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/620980/header.jpg" alt="Beat Saber">
-        <div class="game-info"><h2>Beat Saber</h2></div>
-      </a>
+          <div class="cta">
+            <button class="btn" id="copyBtn" type="button">Copier l’horaire</button>
+            <button class="btn" id="refreshBtn" type="button">Actualiser</button>
+          </div>
 
-      <a href="https://direct-link.net/1429805/Q03393WtuwKH" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/448280/header.jpg" alt="Job Simulator">
-        <div class="game-info"><h2>Job Simulator</h2></div>
-      </a>
+          <div class="pill" style="justify-content:center">
+            <span>Fuseau :</span>
+            <span class="k" id="tz">Local</span>
+          </div>
+        </aside>
+      </div>
 
-      <a href="https://direct-link.net/1429805/GosMLDkGvqvi" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/264710/header.jpg" alt="Subnautica">
-        <div class="game-info"><h2>Subnautica</h2></div>
-      </a>
-
-      <a href="https://link-center.net/1429805/mJYOaYAaU01H" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1592190/header.jpg" alt="Bonelab">
-        <div class="game-info"><h2>BONELAB</h2></div>
-      </a>
-
-      <a href="https://direct-link.net/1429805/sIfWm80LZvsM" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/242760/header.jpg" alt="The Forest">
-        <div class="game-info"><h2>The Forest</h2></div>
-      </a>
-
-      <a href="https://direct-link.net/1429805/vGegD9uv7p9r" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/275850/header.jpg" alt="No Man's Sky">
-        <div class="game-info"><h2>No Man's Sky</h2></div>
-      </a>
-
-      <a href="https://direct-link.net/1429805/Dcwx5YZhUF06" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg" alt="Phasmophobia">
-        <div class="game-info"><h2>Phasmophobia</h2></div>
-      </a>
-
-      <a href="https://link-hub.net/1429805/DjdfbM384HtH" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/732690/header.jpg" alt="FNAF Help Wanted">
-        <div class="game-info"><h2>FNAF: Help Wanted</h2></div>
-      </a>
-
-      <a href="https://link-center.net/1429805/95MBY8ra67Pb" target="_blank" class="game-card">
-        <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2287520/capsule_616x353.jpg" alt="FNAF Help Wanted 2">
-        <div class="game-info"><h2>FNAF: Help Wanted 2</h2></div>
-      </a>
-
-      <a href="https://link-hub.net/1429805/68NoQTLQUiCU" target="_blank" class="game-card">
-        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1849900/d3074fc2032268ccba81d5922f33dc00224da44a/capsule_616x353_alt_assets_9.jpg" alt="Among Us VR">
-        <div class="game-info"><h2>Among Us 3D (VR)</h2></div>
-      </a>
-
-      <a href="https://link-center.net/1429805/1wV1bnIhYi2O" target="_blank" class="game-card">
-        <img src="https://i.imgur.com/dYZDlJf.png" alt="I Am Cat">
-        <div class="game-info"><h2>I Am Cat</h2></div>
-      </a>
-
-      <a href="https://link-hub.net/1429805/uwfZsetovxjA" target="_blank" class="game-card">
-        <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1294760/capsule_616x353.jpg" alt="Hard Bullet">
-        <div class="game-info"><h2>Hard Bullet</h2></div>
-      </a>
-
-      <a href="https://link-target.net/1429805/CTy0OgSGpryU" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/617830/header.jpg" alt="SuperHot VR">
-        <div class="game-info"><h2>SuperHot VR</h2></div>
-      </a>
-
-      <a href="https://link-hub.net/1429805/SGEoYEhNiiCm" target="_blank" class="game-card">
-        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1584840/header.jpg" alt="Battle Talent">
-        <div class="game-info"><h2>Battle Talent</h2></div>
-      </a>
-
-      <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-       <a href="" target="_blank" class="game-card">
-        <img src="https://files.catbox.moe/1aq42i.png" alt="Soon">
-        <div class="game-info"><h2>Coming Soon...</h2></div>
-      </a>
-
-    </div>
+      <div class="footer">
+        <div>Cette page est 100% HTML/CSS/JS (un seul fichier).</div>
+        <div>Déverrouillage manuel : <code>?unlock=VOTRE_CODE</code></div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <p>© 2025 VRLinker</p>
-  </footer>
-
   <script>
+    /**********************************************************************
+     *  MAINTENANCE AVEC COMPTE À REBOURS
+     *  - Commence à 15h05 aujourd’hui (heure locale du navigateur)
+     *  - Se termine demain à 15h05
+     *  - Après la fin prévue, on affiche "En attente de réouverture"
+     *    jusqu’à déverrouillage manuel (vous “l’enlevez”).
+     *
+     *  Déverrouillage manuel (optionnel) :
+     *    - Ajoutez dans l’URL : ?unlock=VOTRE_CODE
+     *    - Définissez UNLOCK_CODE ci-dessous
+     **********************************************************************/
 
-    const searchInput = document.getElementById('searchInput');
-    const games = document.querySelectorAll('.game-card');
+    // 👉 Changez ce code si vous voulez un "déblocage" simple par URL
+    const UNLOCK_CODE = "CHANGE-MOI";
 
-    searchInput.addEventListener('input', () => {
-      const searchValue = searchInput.value.toLowerCase();
-      games.forEach(game => {
-        const title = game.querySelector('h2').textContent.toLowerCase();
-        game.style.display = title.includes(searchValue) ? '' : 'none';
+    // 👉 Si vous voulez forcer la maintenance quoi qu’il arrive :
+    // (true = toujours bloqué / false = logique automatique + déverrouillage possible)
+    const FORCE_LOCK = true;
+
+    // Horaires : 15:05 -> (15, 5)
+    const START_HOUR = 15;
+    const START_MIN  = 5;
+
+    // DOM
+    const el = (id) => document.getElementById(id);
+    const ring = el("ringProgress");
+    const CIRC = 2 * Math.PI * 48; // r=48
+    ring.style.strokeDasharray = CIRC.toFixed(2);
+
+    function pad(n){ return String(n).padStart(2,"0"); }
+
+    function fmt(dt){
+      // Format lisible FR, sans secondes
+      return dt.toLocaleString("fr-FR", {
+        weekday:"short", year:"numeric", month:"short", day:"2-digit",
+        hour:"2-digit", minute:"2-digit"
       });
+    }
+
+    function buildWindow(now){
+      // Start: aujourd’hui à 15:05
+      const start = new Date(now);
+      start.setHours(START_HOUR, START_MIN, 0, 0);
+
+      // End: demain à 15:05 (par rapport au start)
+      const end = new Date(start);
+      end.setDate(start.getDate() + 1);
+
+      return { start, end };
+    }
+
+    function getUnlockFromUrl(){
+      const u = new URL(location.href);
+      const code = u.searchParams.get("unlock");
+      return code && code === UNLOCK_CODE;
+    }
+
+    function setParticles(){
+      const host = el("particles");
+      const count = 18;
+      for(let i=0;i<count;i++){
+        const d = document.createElement("div");
+        d.className = "p";
+        d.style.setProperty("--x", Math.round(Math.random()*100) + "vw");
+        d.style.setProperty("--dx", (Math.random()*24 - 12) + "vw");
+        d.style.setProperty("--s", (Math.random()*0.9 + 0.5).toFixed(2));
+        d.style.setProperty("--t", (Math.random()*14 + 12).toFixed(2) + "s");
+        d.style.setProperty("--o", (Math.random()*0.35 + 0.25).toFixed(2));
+        d.style.left = Math.round(Math.random()*100) + "vw";
+        d.style.top = Math.round(Math.random()*100) + "vh";
+        host.appendChild(d);
+      }
+    }
+
+    function renderCountdown(ms){
+      const total = Math.max(0, ms);
+      const sec = Math.floor(total/1000);
+      const days = Math.floor(sec / 86400);
+      const hrs  = Math.floor((sec % 86400) / 3600);
+      const mins = Math.floor((sec % 3600) / 60);
+      const s    = sec % 60;
+
+      el("d").textContent = pad(days);
+      el("h").textContent = pad(hrs);
+      el("m").textContent = pad(mins);
+      el("s").textContent = pad(s);
+
+      // affichage central
+      if(days > 0){
+        el("centerBig").textContent = `${days}j ${pad(hrs)}h`;
+      }else{
+        el("centerBig").textContent = `${pad(hrs)}:${pad(mins)}:${pad(s)}`;
+      }
+    }
+
+    function setRingProgress(progress01){
+      const p = Math.min(1, Math.max(0, progress01));
+      const offset = CIRC * (1 - p);
+      ring.style.strokeDashoffset = offset.toFixed(2);
+    }
+
+    function tick(){
+      const now = new Date();
+      const { start, end } = buildWindow(now);
+
+      // labels
+      el("startText").textContent = fmt(start);
+      el("endText").textContent = fmt(end);
+      el("tz").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
+
+      // Déverrouillage manuel (si FORCE_LOCK est false)
+      const unlocked = getUnlockFromUrl() && !FORCE_LOCK;
+
+      let phase = "";
+      let state = "";
+      let targetMs = 0;
+      let ringP = 0;
+
+      const duration = end - start;
+
+      if(unlocked){
+        phase = "Déverrouillé";
+        state = "Accès rétabli (manuel)";
+        el("title").textContent = "Maintenance levée ✅";
+        el("subtitle").textContent = "Le site a été rouvert manuellement. Vous pouvez fermer cette page.";
+        el("note").textContent = "Astuce : retirez le paramètre ?unlock=… pour revenir au mode normal.";
+        el("centerSmall").textContent = "RÉOUVERT";
+        renderCountdown(0);
+        setRingProgress(1);
+        el("phaseLabel").textContent = phase;
+        el("windowLabel").textContent = "—";
+        el("stateText").textContent = state;
+        return;
+      }
+
+      // LOGIQUE PRINCIPALE
+      if(now < start){
+        // Avant le début : compte à rebours jusqu’au démarrage
+        phase = "À venir";
+        state = "Maintenance programmée";
+        targetMs = start - now;
+
+        el("title").textContent = "Maintenance programmée ⏳";
+        el("subtitle").textContent =
+          "Le site va passer en maintenance. Le compte à rebours indique le temps avant le début.";
+        el("note").textContent =
+          "Une fois démarrée, l’accès restera bloqué jusqu’à la fin (et éventuellement jusqu’à réouverture manuelle).";
+
+        const untilStart = 1 - (targetMs / Math.max(1, 6*60*60*1000)); // joli “pré-chauffage”
+        ringP = Math.min(1, Math.max(0, untilStart));
+        el("centerSmall").textContent = "AVANT DÉMARRAGE";
+      }else if(now >= start && now < end){
+        // Pendant : temps restant jusqu’à la fin
+        phase = "En cours";
+        state = "Accès indisponible";
+        targetMs = end - now;
+
+        el("title").textContent = "Maintenance en cours 🛠️";
+        el("subtitle").textContent =
+          "Nous effectuons des améliorations. Merci pour votre patience, on revient bientôt.";
+        el("note").textContent =
+          "Si vous voyez cette page après l’heure prévue, la maintenance a peut-être été prolongée.";
+
+        ringP = 1 - (targetMs / duration);
+        el("centerSmall").textContent = "PROGRESSION";
+      }else{
+        // Après la fin prévue : on laisse la page bloquée jusqu’à ce que VOUS “l’enleviez”
+        phase = "Terminé (horaire)";
+        state = FORCE_LOCK ? "En attente de réouverture (manuel)" : "Vous pouvez déverrouiller (manuel)";
+        targetMs = 0;
+
+        el("title").textContent = "Maintenance terminée (horaire) ✅";
+        el("subtitle").textContent =
+          "La fenêtre planifiée est terminée. Cette page reste affichée jusqu’à réouverture manuelle.";
+        el("note").textContent =
+          FORCE_LOCK
+            ? "FORCE_LOCK est activé : la page restera bloquée tant que vous ne désactivez pas ce mode dans le code."
+            : "Déverrouillage : ajoutez ?unlock=VOTRE_CODE à l’URL (et définissez UNLOCK_CODE dans le script).";
+
+        ringP = 1;
+        el("centerSmall").textContent = "EN ATTENTE";
+      }
+
+      // Rendu
+      el("phaseLabel").textContent = phase;
+      el("windowLabel").textContent = `${start.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})} → ${end.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})}`;
+      el("stateText").textContent = state;
+
+      renderCountdown(targetMs);
+      setRingProgress(ringP);
+    }
+
+    // Buttons
+    el("refreshBtn").addEventListener("click", () => location.reload());
+    el("copyBtn").addEventListener("click", async () => {
+      const now = new Date();
+      const { start, end } = buildWindow(now);
+      const text = `Maintenance: ${fmt(start)} → ${fmt(end)}`;
+      try{
+        await navigator.clipboard.writeText(text);
+        el("copyBtn").textContent = "Copié ✅";
+        setTimeout(()=> el("copyBtn").textContent = "Copier l’horaire", 1400);
+      }catch(e){
+        // fallback
+        prompt("Copiez :", text);
+      }
     });
 
-
-    window.addEventListener('load', () => {
-      const cards = document.querySelectorAll('.game-card');
-      cards.forEach((card, index) => {
-        setTimeout(() => {
-          card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-          card.style.opacity = 1;
-          card.style.transform = 'translateY(0)';
-        }, 200 + index * 120);
-      });
-    });
+    // init
+    setParticles();
+    tick();
+    setInterval(tick, 1000);
   </script>
-
 </body>
 </html>
-
