@@ -424,7 +424,7 @@
       </div>
 
       <div class="footer">
-        <div>Cette page est 100% HTML/CSS/JS (un seul fichier).</div>
+        <div></div>
         <div>Déverrouillage manuel : <code>?unlock=VOTRE_CODE</code></div>
       </div>
     </section>
@@ -444,7 +444,7 @@
      **********************************************************************/
 
     // 👉 Changez ce code si vous voulez un "déblocage" simple par URL
-    const UNLOCK_CODE = "CHANGE-MOI";
+    const UNLOCK_CODE = "UNLOCKED";
 
     // 👉 Si vous voulez forcer la maintenance quoi qu’il arrive :
     // (true = toujours bloqué / false = logique automatique + déverrouillage possible)
@@ -452,7 +452,7 @@
 
     // Horaires : 15:05 -> (15, 5)
     const START_HOUR = 15;
-    const START_MIN  = 5;
+    const START_MIN  = 10;
 
     // DOM
     const el = (id) => document.getElementById(id);
@@ -646,3 +646,4 @@
   </script>
 </body>
 </html>
+
